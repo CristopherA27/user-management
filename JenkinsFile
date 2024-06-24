@@ -9,7 +9,8 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                script { // Construye una imagen Docker usando el Dockerfile del proyecto.
+                script {
+                    def dockerImage // Construye una imagen Docker usando el Dockerfile del proyecto.
                     dockerImage = docker.build("cristophera27/user-management:${env.BUILD_ID}")
                 }
             }
