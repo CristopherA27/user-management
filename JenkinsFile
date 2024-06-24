@@ -1,0 +1,36 @@
+pipeline {  
+    agent any  //Indica que el pipeline puede ejecutarse en cualquier agente disponible.
+    stages {  //ETAPAS DEL PIPELINE
+        stage('Build') {
+            steps {
+                sh 'npm install'
+                sh 'npm test'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                script { // Construye una imagen Docker usando el Dockerfile del proyecto.
+                    dockerImage = docker.build("cristophera27/user-management:${env.BUILD_ID}")
+                }
+            }
+        }
+        stage('Docker Push') { // Sube la imagen Docker al repositorio de Docker Hub.
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_credentials') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Deploy to Minikube') {
+            steps {
+                script {
+                    sh 'kubectl apply -f k8s/deployment.yml'
+                    sh 'kubectl apply -f k8s/service.yml'  
+                    //Despliega la aplicación en Minikube utilizando los archivos de configuración de Kubernetes.
+                }
+            }
+        }
+    }
+}
