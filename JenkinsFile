@@ -2,7 +2,7 @@ pipeline {
     agent {
         dockerContainer {
             image 'node:14'  //Indica que el pipeline se ejecutará en un contenedor Docker con la imagen de Node.js 12.
-            args '-v /var/run/docker.sock:/var/run/docker.sock'  //Monta el directorio .m2 del host en el contenedor.
+            arguments '-v /var/run/docker.sock:/var/run/docker.sock'  //Monta el directorio .m2 del host en el contenedor.
         }
     }  //Indica que el pipeline puede ejecutarse en cualquier agente disponible.
     stages {  //ETAPAS DEL PIPELINE
