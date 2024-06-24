@@ -18,7 +18,7 @@ pipeline {
         stage('Docker Push') { // Sube la imagen Docker al repositorio de Docker Hub.
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_credentials') {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dckr_pat_6od8VwPMlUcml6ppJr2CHNlWgD4') {
                         dockerImage.push()
                     }
                 }
