@@ -1,5 +1,8 @@
 pipeline {  
     agent any //Indica que el pipeline puede ejecutarse en cualquier agente disponible.
+    environment {
+        DOCKER_IMAGE = ''
+    }
     stages {  //ETAPAS DEL PIPELINE
         stage('Build') {
             steps {
@@ -10,8 +13,8 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    def dockerImage // Construye una imagen Docker usando el Dockerfile del proyecto.
-                    dockerImage = docker.build("cristophera27/user-management:${env.BUILD_ID}")
+                    // Construye una imagen Docker usando el Dockerfile del proyecto.
+                    DOCKER_IMAGE = docker.build("cristophera27/user-management:${env.BUILD_ID}")
                 }
             }
         }
@@ -19,7 +22,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com','dockerhub-credentials') {
-                        dockerImage.push()
+                        DOCKER_IMAGE.push()
                     }
                 }
             }
@@ -29,7 +32,7 @@ pipeline {
                 script {
                     sh 'kubectl apply -f k8s/deployment.yml'
                     sh 'kubectl apply -f k8s/service.yml'  
-                    //Despliega la aplicación en Minikube utilizando los archivos de configuración de Kubernetes.
+                    // Despliega la aplicación en Minikube utilizando los archivos de configuración de Kubernetes.
                 }
             }
         }
