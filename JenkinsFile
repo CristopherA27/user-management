@@ -2,10 +2,10 @@ pipeline {
     agent any //Indica que el pipeline puede ejecutarse en cualquier agente disponible.
     environment {
         DOCKER_IMAGE = ''
-        KUBECONFIG = '/home/cristopher/.kube/config' // Ruta del archivo de configuración de Kubernetes.
+        KUBECONFIG = credentials('kube-credentials') // Ruta del archivo de configuración de Kubernetes.
     }
     stages {  //ETAPAS DEL PIPELINE
-        stage('Build') {
+        /*stage('Build') {
             steps {
                 sh 'npm install'
                 sh 'npm test'
@@ -27,12 +27,12 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
         stage('Deploy to Minikube') {
             steps {
                 script {
-                    // Utiliza las credenciales de Kubernetes configuradas en Jenkins
-                    withKubeConfig(credentialsId: $KUBECONFIG, kubeconfigFile: "${env.KUBECONFIG}") {
+                    withKubeConfig(credentialsId: 'kube-credentials',kubeconfigFile :"${env.KUBECONFIG}")// Utiliza las credenciales de Kubernetes configuradas en Jenkins
+                    {
                         sh 'kubectl apply -f k8s/deployment.yml'
                         sh 'kubectl apply -f k8s/service.yml'
                     }
