@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Construye una imagen Docker usando el Dockerfile del proyecto.
-                    DOCKER_IMAGE = docker.build("cristophera27/user-management:${env.BUILD_ID}")
+                    DOCKER_IMAGE = docker.build("cristophera27/user-management:latest")
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     // Utiliza las credenciales de Kubernetes configuradas en Jenkins
-                    withKubeConfig(credentialsId: 'kubeconfig-credentials', kubeconfigFile: "${env.KUBECONFIG}") {
+                    withKubeConfig(credentialsId: $KUBECONFIG, kubeconfigFile: "${env.KUBECONFIG}") {
                         sh 'kubectl apply -f k8s/deployment.yml'
                         sh 'kubectl apply -f k8s/service.yml'
                     }
