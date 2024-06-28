@@ -5,7 +5,7 @@ pipeline {
         KUBECONFIG = credentials('kube-credentials') // Ruta del archivo de configuración de Kubernetes.
     }
     stages {  //ETAPAS DEL PIPELINE
-        /*stage('Build') {
+        stage('Build') {
             steps {
                 sh 'npm install'
                 sh 'npm test'
@@ -27,7 +27,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
         stage('Deploy to Minikube') {
             steps {
                 script {
