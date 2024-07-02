@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Construye una imagen Docker usando el Dockerfile del proyecto.
-                    DOCKER_IMAGE = docker.build("cristophera27/user-management:latest")
+                    DOCKER_IMAGE = docker.build("cristobalrios2001/user-management:latest")
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy to Minikube') {
             steps {
                 script {
-                    withKubeConfig(credentialsId: 'kube-credentials',kubeconfigFile :"${env.KUBECONFIG}")// Utiliza las credenciales de Kubernetes configuradas en Jenkins
+                    withKubeConfig(credentialsId: 'kube-credentials')
                     {
                         sh 'kubectl apply -f k8s/deployment.yml'
                         sh 'kubectl apply -f k8s/service.yml'
