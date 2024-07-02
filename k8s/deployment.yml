@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: user-management
-        image: cristophera27/user-management:latest
+        image: cristobalrios2001/user-management:latest
         ports:
         - containerPort: 3000
