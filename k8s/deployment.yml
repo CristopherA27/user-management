@@ -17,3 +17,6 @@ spec:
         image: cristobalrios2001/user-management:latest
         ports:
         - containerPort: 3000
+        env:
+        - name: DATABASE_PATH
+          value: "./database/db.sqlite"
