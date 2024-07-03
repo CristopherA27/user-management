@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Minikube') {
+        stage('Deploy to Minikube') { // Despliega la aplicación en Minikube.
             steps {
                 script {
                     withKubeConfig(credentialsId: 'kube-credentials')
