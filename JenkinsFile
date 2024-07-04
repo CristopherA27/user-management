@@ -1,10 +1,10 @@
 pipeline {  
-    agent any //Indica que el pipeline puede ejecutarse en cualquier agente disponible.
+    agent any 
     environment {
         DOCKER_IMAGE = ''
-        KUBECONFIG = credentials('kube-credentials') // Ruta del archivo de configuración de Kubernetes.
+        KUBECONFIG = credentials('kube-credentials') 
     }
-    stages {  //ETAPAS DEL PIPELINE
+    stages {  
         stage('Build') {
             steps {
                 sh 'npm install'
@@ -14,12 +14,11 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    // Construye una imagen Docker usando el Dockerfile del proyecto.
                     DOCKER_IMAGE = docker.build("cristobalrios2001/user-management:latest")
                 }
             }
         }
-        stage('Docker Push') { // Sube la imagen Docker al repositorio de Docker Hub.
+        stage('Docker Push') { 
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com','dockerhub-credentials') {
@@ -28,7 +27,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Minikube') { // Despliega la aplicación en Minikube.
+        stage('Deploy to Minikube') { 
             steps {
                 script {
                     withKubeConfig(credentialsId: 'kube-credentials')
