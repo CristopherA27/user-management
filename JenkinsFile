@@ -33,6 +33,8 @@ pipeline {
                 script {
                     withKubeConfig(credentialsId: 'kube-credentials')
                     {
+                        def timestamp = sh(script: 'date +%s', returnStdout: true).trim()
+                        sh "sed -i 's/{{timestamp}}/$timestamp/' k8s/deployment.yml"
                         sh 'kubectl apply -f k8s/deployment.yml'
                         sh 'kubectl apply -f k8s/service.yml'
                     }

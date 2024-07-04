@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: user-management
+      annotations:
+        timestamp: "{{timestamp}}"
     spec:
       containers:
       - name: user-management
