@@ -23,7 +23,8 @@ export class UserController {
 
   @Get()
   getMany() {
-    return this.userService.getAllUsers();
+    return "Get all users"
+    // return this.userService.getAllUsers();
   }
 
   @Get(':id')
