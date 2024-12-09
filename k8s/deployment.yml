@@ -11,9 +11,16 @@ spec:
     metadata:
       labels:
         app: user-management
+      annotations:
+        timestamp: "{{timestamp}}"
     spec:
       containers:
       - name: user-management
-        image: cristophera27/user-management:latest
+        image: cristobalrios2001/user-management:latest
         ports:
         - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
+        - name: DATABASE_PATH
+          value: "./database/db.sqlite"
